@@ -6,6 +6,7 @@ import { GroupModel } from "./group.model";
 import { NumberModel } from "./number.model";
 import { ConversationModel } from "./conversation.model";
 import { MessageModel } from "./message.model";
+import { TokenModel } from "./token.model";
 
 
 interface UserAttributes {
@@ -14,6 +15,7 @@ interface UserAttributes {
     email: string;
     role: 'REGULAR' | 'ADMIN';
     password: string;
+    accountId: number;
 }
 
 interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
@@ -53,4 +55,7 @@ export class UserModel extends Model<UserAttributes, UserCreationAttributes>{
 
     @HasMany(() => MessageModel)
     messages: MessageModel[];
+
+    @HasMany(() => TokenModel)
+    tokens: TokenModel[];
 }

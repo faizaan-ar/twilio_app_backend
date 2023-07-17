@@ -8,6 +8,7 @@ import { NumberModel } from "./models/number.model";
 import { ConversationModel } from "./models/conversation.model";
 import { MessageModel } from "./models/message.model";
 import { MessagesMediaModel } from "./models/messages-media.model";
+import { TokenModel } from "./models/token.model";
 
 
 export function createDBConnect(){
@@ -27,7 +28,8 @@ export function createDBConnect(){
             NumberModel,
             ConversationModel,
             MessageModel,
-            MessagesMediaModel
+            MessagesMediaModel,
+            TokenModel
         ],
     });
 
@@ -40,5 +42,6 @@ export function createDBConnect(){
     ConversationModel.sync({alter: true});
     MessageModel.sync({alter: true});
     MessagesMediaModel.sync({alter: true});
+    TokenModel.sync({alter: true});
 
 }
