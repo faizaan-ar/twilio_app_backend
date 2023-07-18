@@ -31,11 +31,11 @@ export let signInController = async (req: Request, res: Response) => {
     }
    })
 
-   let accessToken = jwt.sign(user.toJSON(), "dmVyeXZlcnlzZWNyZXRrZXk=", {
+   let accessToken = jwt.sign(user.toJSON(), process.env.TOKEN_SECRET as string, {
     expiresIn: "7d",
    })
 
-   let refreshToken = jwt.sign(user.toJSON(), "dmVyeXZlcnlzZWNyZXRrZXk=");
+   let refreshToken = jwt.sign(user.toJSON(), process.env.TOKEN_SECRET as string);
    
    await TokenModel.create({
     token: refreshToken,

@@ -11,7 +11,7 @@ export async function authorizeRequestMiddleware(req: CustomRequest, res: Respon
     
     try{
         let accessToken = req.headers.authorization?.split(" ")[1];
-        let tokenPayload: any = jwt.verify(accessToken!, "dmVyeXZlcnlzZWNyZXRrZXk=");
+        let tokenPayload: any = jwt.verify(accessToken!, process.env.TOKEN_SECRET as string);
 
         let user = await UserModel.findOne({
             where: {

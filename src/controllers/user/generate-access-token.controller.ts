@@ -13,7 +13,7 @@ export let generateAccessTokenController = async (req: Request, res: Response) =
     try{
         let tokenPayload: any = jwt.verify(
             data.refreshToken,
-            "dmVyeXZlcnlzZWNyZXRrZXk="
+            process.env.TOKEN_SECRET as string
         );
         
         let user = await UserModel.findOne({
@@ -44,7 +44,7 @@ export let generateAccessTokenController = async (req: Request, res: Response) =
             return;
         }
 
-        let accessToken = jwt.sign(user.toJSON(), "dmVyeXZlcnlzZWNyZXRrZXk=", {
+        let accessToken = jwt.sign(user.toJSON(), process.env.TOKEN_SECRET as string, {
             expiresIn: "30m"
         });
         await TokenModel.destroy({

@@ -1,7 +1,9 @@
 import express from 'express';
 import { createDBConnect } from './sequelize/connection';
-import { AccountModel } from './sequelize/models/account.model';
+import dotenv from "dotenv";
 import { routes } from './routes/index.routes';
+
+dotenv.config();
 
 const app = express();
 
