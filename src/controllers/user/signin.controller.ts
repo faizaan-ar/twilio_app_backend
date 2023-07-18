@@ -32,7 +32,7 @@ export let signInController = async (req: Request, res: Response) => {
    })
 
    let accessToken = jwt.sign(user.toJSON(), "dmVyeXZlcnlzZWNyZXRrZXk=", {
-    expiresIn: "1m",
+    expiresIn: "7d",
    })
 
    let refreshToken = jwt.sign(user.toJSON(), "dmVyeXZlcnlzZWNyZXRrZXk=");

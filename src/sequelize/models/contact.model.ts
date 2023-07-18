@@ -1,9 +1,10 @@
 import { Optional } from "sequelize";
-import { Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
+import { BelongsToMany, Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
 import { UserModel } from "./user.model";
 import { ContactGroupModel } from "./contact-group.model";
 import { ConversationModel } from "./conversation.model";
 import { AccountModel } from "./account.model";
+import { GroupModel } from "./group.model";
 
 
 interface ContactAttributes {
@@ -46,4 +47,7 @@ export class ContactModel extends Model<ContactAttributes, ContactCreationAttrib
 
     @HasMany(() => ConversationModel)
     conversations: ConversationModel[];
+
+    @BelongsToMany(() => GroupModel, () => ContactGroupModel)
+    groups: GroupModel[];
 }

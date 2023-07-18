@@ -2,6 +2,7 @@ import { Optional } from "sequelize";
 import { Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
 import { UserModel } from "./user.model";
 import { ConversationModel } from "./conversation.model";
+import { AccountModel } from "./account.model";
 
 
 interface NumberAttributes {
@@ -9,6 +10,7 @@ interface NumberAttributes {
     userId: number;
     number: string;
     title: string;
+    accountId: number;
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -29,6 +31,10 @@ export class NumberModel extends Model<NumberAttributes, NumberCreationAttribute
     @ForeignKey( () => UserModel)
     @Column(DataType.INTEGER)
     userId: number;
+
+    @ForeignKey( () => AccountModel)
+    @Column(DataType.INTEGER)
+    accountId: number;
 
     @HasMany(() => ConversationModel)
     conversations: ConversationModel[];
