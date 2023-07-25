@@ -4,6 +4,7 @@ import { UserModel } from "./user.model";
 import { ContactModel } from "./contact.model";
 import { GroupModel } from "./group.model";
 import { NumberModel } from "./number.model";
+import { MessageModel } from "./message.model";
 
 
 interface AccountAttributes {
@@ -34,5 +35,8 @@ export class AccountModel extends Model<AccountAttributes, AccountCreationAttrib
 
     @HasMany(() => NumberModel)
     numbers: NumberModel[];
+
+    @HasMany(() => MessageModel)
+    messages: MessageModel[];
    
 }

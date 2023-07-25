@@ -3,6 +3,7 @@ import { Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-t
 import { UserModel } from "./user.model";
 import { ConversationModel } from "./conversation.model";
 import { MessagesMediaModel } from "./messages-media.model";
+import { AccountModel } from "./account.model";
 
 
 interface MessageAttributes {
@@ -11,6 +12,8 @@ interface MessageAttributes {
     direction: "INCOMING" | "OUTGOING";
     userId: number;
     body: string;
+    sid: string;
+    accountId: number;
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -34,10 +37,17 @@ export class MessageModel extends Model<MessageAttributes, MessageCreationAttrib
     @Column(DataType.INTEGER)
     userId: number;
 
+    @ForeignKey( () => AccountModel)
+    @Column(DataType.INTEGER)
+    accountId: number;
+
     @HasMany(() => MessagesMediaModel)
     messagesMedia: MessagesMediaModel[];
 
     @Column(DataType.STRING(1600))
     body: string;
+
+    @Column(DataType.STRING(200))
+    sid: string;
     
 }

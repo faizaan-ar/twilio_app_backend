@@ -11,6 +11,7 @@ interface NumberAttributes {
     number: string;
     title: string;
     accountId: number;
+    twilioSid: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -27,6 +28,9 @@ export class NumberModel extends Model<NumberAttributes, NumberCreationAttribute
 
     @Column(DataType.STRING(100))
     number: string;
+
+    @Column(DataType.STRING(255))
+    twilioSid: string;
 
     @ForeignKey( () => UserModel)
     @Column(DataType.INTEGER)

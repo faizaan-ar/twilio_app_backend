@@ -7,34 +7,50 @@ import { Op } from "sequelize";
 
 export let updateContactController = async (req: CustomRequest, res: Response) => {
 
+    try{
+        let data: {
+            name: string;
+            email: string;
+            phone: string;
+            groupIds: number[];
+            contactId: number;
+        } = req.body;
 
-    let data: {
-        name: string;
-        email: string;
-        phone: string;
-        groupIds: number[];
-        contactId: number;
-    } = req.body;
+        let updateData:any ={
+            accountId: req.user?.get("accountId") as number,
+        };
 
-    let response = await ContactModel.update({
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        accountId: req.user?.get("accountId") as number,
-        userId: req.user?.get("id"),
-    },  {
-        where: {
-            id: data.contactId,    
-        },
+        if (data.name) updateData.name = data.name;
+        if (data.email) updateData.email = data.email;
+        if (data.phone) updateData.phone = data.phone;
+
+        let response = await ContactModel.update(updateData, {
+            where: {
+                id: data.contactId,
+                userId: req.user?.get("id"),    
+            },
+        });
+
+        let contact = await ContactModel.findOne({
+            where: {
+                id: data.contactId
+            },
+        });
+
+        if(data.groupIds){
+            await updateGroups(data);
+        }
+        res.json(contact);
     }
-    );
-
-    let contact = await ContactModel.findOne({
-        where: {
-            id: data.contactId
-        },
-    });
+    catch(e: any){
+        res.status(500).json({
+            message: e.message,
+        });
+    }
     
+};
+
+async function updateGroups(data: any){
     await ContactGroupModel.destroy({
         where: {
             contactId: data.contactId,
@@ -54,11 +70,11 @@ export let updateContactController = async (req: CustomRequest, res: Response) =
         return contactGroup.get("groupId");
     });
 
-    let newGroupIds = data.groupIds.filter((groupId) => {
+    let newGroupIds = data.groupIds.filter((groupId: any) => {
         return !contactGroupIds.includes(groupId);
     });
 
-    let newContactGroups = newGroupIds.map((groupId) => {
+    let newContactGroups = newGroupIds.map((groupId: any) => {
         return {
             contactId: data.contactId,
             groupId: groupId,
@@ -66,7 +82,4 @@ export let updateContactController = async (req: CustomRequest, res: Response) =
     });
 
     await ContactGroupModel.bulkCreate(newContactGroups);
-
-    res.json(contact);
-    
-};
+}
